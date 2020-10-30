@@ -10,9 +10,10 @@ import javax.persistence.*;
 @Entity(name = "MENTOR")
 public class MentorEntity {
 
+    private String nome;
+    private String pais;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String pais;
 }

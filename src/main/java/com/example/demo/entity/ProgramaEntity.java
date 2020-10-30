@@ -14,10 +14,11 @@ import java.time.LocalDate;
 @Entity(name = "PROGRAMA")
 public class ProgramaEntity {
 
+    private String nome;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
 
     @DateTimeFormat(pattern = "YYYY-MM-dd")
     private LocalDate dataInicio;
