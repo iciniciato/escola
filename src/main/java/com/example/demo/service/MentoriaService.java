@@ -12,6 +12,7 @@ import com.example.demo.repository.MentoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -58,15 +59,17 @@ public class MentoriaService {
     }
 
     public Boolean alteraMentoria(VinculaMentoriaDTO vinculaMentoriaDTO, Long id) {
-        Optional<AlunoEntity> alunoEntity = alunoRepository.findById(vinculaMentoriaDTO.getIdAluno());
-        Optional<MentorEntity> mentorEntity = mentorRepository.findById(vinculaMentoriaDTO.getIdMentor());
         Optional<MentoriaEntity> mentoriaParaAlterar = mentoriaRepository.findById(id);
-        if (alunoEntity.isPresent() && mentorEntity.isPresent() && mentoriaParaAlterar.isPresent()) {
+        if (Objects.nonNull(vinculaMentoriaDTO.getIdAluno())) {
+            Optional<AlunoEntity> alunoEntity = alunoRepository.findById(vinculaMentoriaDTO.getIdAluno());
             mentoriaParaAlterar.get().setAluno(alunoEntity.get());
-            mentoriaParaAlterar.get().setMentor(mentorEntity.get());
-            mentoriaRepository.save(mentoriaParaAlterar.get());
-            return true;
         }
-        return false;
+        if (Objects.nonNull(vinculaMentoriaDTO.getIdMentor())) {
+            Optional<MentorEntity> mentorEntity = mentorRepository.findById(vinculaMentoriaDTO.getIdMentor());
+            mentoriaParaAlterar.get().setMentor(mentorEntity.get());
+        }
+        mentoriaRepository.save(mentoriaParaAlterar.get());
+        return true;
+
     }
 }

@@ -38,7 +38,7 @@ public class NotaController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity putNota(@RequestBody VinculaNotaDTO vinculaNotaDTO,
                                   @PathVariable Long id) {
         if (notaService.alteraNota(vinculaNotaDTO, id)) {
