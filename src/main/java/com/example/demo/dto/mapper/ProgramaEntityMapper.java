@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class ProgramaEntityMapper {
 
-    public static ProgramaEntity converterProgramaDto(ProgramaDTO programaDTO) {
+    public static ProgramaEntity converteProgramaDto(ProgramaDTO programaDTO) {
         ProgramaEntity programaEntity = new ProgramaEntity();
         programaEntity.setNome(programaDTO.getNome());
         programaEntity.setAno(programaDTO.getAno());

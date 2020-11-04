@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class MentorEntityMapper {
 
-    public static MentorEntity converterMentorDto(MentorDTO mentorDTO) {
+    public static MentorEntity converteMentorDto(MentorDTO mentorDTO) {
         MentorEntity mentorEntity = new MentorEntity();
         mentorEntity.setNome(mentorDTO.getNome());
         mentorEntity.setPais(mentorDTO.getPais());

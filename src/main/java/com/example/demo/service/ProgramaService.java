@@ -31,7 +31,7 @@ public class ProgramaService {
     }
 
     public void criaPrograma(ProgramaDTO programaDTO) {
-        ProgramaEntity programaEntity = ProgramaEntityMapper.converterProgramaDto(programaDTO);
+        ProgramaEntity programaEntity = ProgramaEntityMapper.converteProgramaDto(programaDTO);
         programaRepository.save(programaEntity);
     }
 

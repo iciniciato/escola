@@ -31,7 +31,7 @@ public class MentorService {
     }
 
     public void criaMentor(MentorDTO mentorDTO) {
-        MentorEntity mentorEntity = MentorEntityMapper.converterMentorDto(mentorDTO);
+        MentorEntity mentorEntity = MentorEntityMapper.converteMentorDto(mentorDTO);
         mentorRepository.save(mentorEntity);
     }
 

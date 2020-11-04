@@ -3,8 +3,6 @@ package com.example.demo.dto.mapper;
 import com.example.demo.dto.MateriaDTO;
 import com.example.demo.entity.MateriaEntity;
 
-import java.util.Objects;
-
 public class MateriaEntityMapper {
 
     public static MateriaEntity converteMateriaDto(MateriaDTO materiaDTO) {
