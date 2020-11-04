@@ -9,7 +9,6 @@ import com.example.demo.entity.NotaEntity;
 import com.example.demo.repository.MateriaRepository;
 import com.example.demo.repository.MentoriaRepository;
 import com.example.demo.repository.NotaRepository;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

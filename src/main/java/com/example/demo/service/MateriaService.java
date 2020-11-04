@@ -24,7 +24,7 @@ public class MateriaService {
     public MateriaDTO getMateriaByIndex(Long id) {
         Optional<MateriaEntity> materiaEntity = materiaRepository.findById(id);
         MateriaDTO materiaDTO = new MateriaDTO();
-        if(materiaEntity.isPresent()) {
+        if (materiaEntity.isPresent()) {
             materiaDTO = MateriaDtoMapper.converteMateriaEntity(materiaEntity.get());
         }
         return materiaDTO;
