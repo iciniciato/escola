@@ -36,9 +36,10 @@ public class MateriaService {
     }
 
     public void excluiMateria(Long id) {
-        MateriaEntity materiaEntity = new MateriaEntity();
-        materiaEntity.setId(id);
-        materiaRepository.delete(materiaEntity);
+        Optional<MateriaEntity> materiaEntity = materiaRepository.findById(id);
+        if (materiaEntity.isPresent()) {
+            materiaRepository.delete(materiaEntity.get());
+        }
     }
 
     public Boolean alteraMateria(MateriaDTO materiaDTO, Long id) {

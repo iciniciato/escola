@@ -55,9 +55,10 @@ public class NotaService {
     }
 
     public void excluiNota(Long id) {
-        NotaEntity notaEntity = new NotaEntity();
-        notaEntity.setId(id);
-        notaRepository.delete(notaEntity);
+        Optional<NotaEntity> notaEntity = notaRepository.findById(id);
+        if (notaEntity.isPresent()) {
+            notaRepository.delete(notaEntity.get());
+        }
     }
 
     public Boolean alteraNota(VinculaNotaDTO vinculaNotaDTO, Long id) {

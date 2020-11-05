@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AlunoDTO;
+import com.example.demo.exceptions.ImpossivelExcluir;
 import com.example.demo.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

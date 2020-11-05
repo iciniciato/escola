@@ -36,9 +36,10 @@ public class ProgramaService {
     }
 
     public void excluiPrograma(Long id) {
-        ProgramaEntity programaEntity = new ProgramaEntity();
-        programaEntity.setId(id);
-        programaRepository.delete(programaEntity);
+        Optional<ProgramaEntity> programaEntity = programaRepository.findById(id);
+        if (programaEntity.isPresent()) {
+            programaRepository.delete(programaEntity.get());
+        }
     }
 
     public Boolean alteraPrograma(ProgramaDTO programaDTO, Long id) {

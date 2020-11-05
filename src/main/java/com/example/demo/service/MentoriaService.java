@@ -53,9 +53,10 @@ public class MentoriaService {
     }
 
     public void excluiMentoria(Long id) {
-        MentoriaEntity mentoriaEntity = new MentoriaEntity();
-        mentoriaEntity.setId(id);
-        mentoriaRepository.delete(mentoriaEntity);
+        Optional<MentoriaEntity> mentoriaEntity = mentoriaRepository.findById(id);
+        if (mentoriaEntity.isPresent()) {
+            mentoriaRepository.delete(mentoriaEntity.get());
+        }
     }
 
     public Boolean alteraMentoria(VinculaMentoriaDTO vinculaMentoriaDTO, Long id) {

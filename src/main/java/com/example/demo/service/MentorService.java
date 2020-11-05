@@ -36,9 +36,10 @@ public class MentorService {
     }
 
     public void excluiMentor(Long id) {
-        MentorEntity mentorEntity = new MentorEntity();
-        mentorEntity.setId(id);
-        mentorRepository.delete(mentorEntity);
+        Optional<MentorEntity> mentorEntity = mentorRepository.findById(id);
+        if (mentorEntity.isPresent()) {
+            mentorRepository.delete(mentorEntity.get());
+        }
     }
 
     public Boolean alteraMentor(MentorDTO mentorDTO, Long id) {

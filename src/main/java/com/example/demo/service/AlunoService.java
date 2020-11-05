@@ -4,10 +4,14 @@ import com.example.demo.dto.AlunoDTO;
 import com.example.demo.dto.mapper.AlunoDtoMapper;
 import com.example.demo.dto.mapper.AlunoEntityMapper;
 import com.example.demo.entity.AlunoEntity;
+import com.example.demo.entity.MentoriaEntity;
+import com.example.demo.exceptions.ImpossivelExcluir;
 import com.example.demo.repository.AlunoRepository;
+import com.example.demo.repository.MentoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +19,9 @@ public class AlunoService {
 
     @Autowired
     private AlunoRepository alunoRepository;
+
+    @Autowired
+    private MentoriaRepository mentoriaRepository;
 
     public Iterable<AlunoEntity> getAlunos() {
         Iterable<AlunoEntity> alunos = alunoRepository.findAll();
@@ -36,9 +43,15 @@ public class AlunoService {
     }
 
     public void excluiAluno(Long id) {
-        AlunoEntity alunoEntity = new AlunoEntity();
-        alunoEntity.setId(id);
-        alunoRepository.delete(alunoEntity);
+        List<MentoriaEntity> mentoriaEntitys = mentoriaRepository.findByAluno_Id(id);
+        if (mentoriaEntitys.isEmpty()) {
+            Optional<AlunoEntity> alunoEntity = alunoRepository.findById(id);
+            if (alunoEntity.isPresent()) {
+                alunoRepository.delete(alunoEntity.get());
+            }
+        } else {
+            throw new ImpossivelExcluir("Impossível excluir aluno, pois está em uso na mentoria.");
+        }
     }
 
     public Boolean alteraAluno(AlunoDTO alunoDTO, Long id) {
