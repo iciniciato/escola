@@ -43,8 +43,8 @@ public class AlunoService {
     }
 
     public void excluiAluno(Long id) {
-        List<MentoriaEntity> mentoriaEntitys = mentoriaRepository.findByAluno_Id(id);
-        if (mentoriaEntitys.isEmpty()) {
+        List<MentoriaEntity> mentoriaEntities = mentoriaRepository.findByAluno_Id(id);
+        if (mentoriaEntities.isEmpty()) {
             Optional<AlunoEntity> alunoEntity = alunoRepository.findById(id);
             if (alunoEntity.isPresent()) {
                 alunoRepository.delete(alunoEntity.get());

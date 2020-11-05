@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MentoriaRepository extends CrudRepository<MentoriaEntity, Long> {
     List<MentoriaEntity> findByAluno_Id(Long idAluno);
+    List<MentoriaEntity> findByMentor_Id(Long idMentor);
 }

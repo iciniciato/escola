@@ -4,10 +4,14 @@ import com.example.demo.dto.MentorDTO;
 import com.example.demo.dto.mapper.MentorDtoMapper;
 import com.example.demo.dto.mapper.MentorEntityMapper;
 import com.example.demo.entity.MentorEntity;
+import com.example.demo.entity.MentoriaEntity;
+import com.example.demo.exceptions.ImpossivelExcluir;
 import com.example.demo.repository.MentorRepository;
+import com.example.demo.repository.MentoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +19,9 @@ public class MentorService {
 
     @Autowired
     private MentorRepository mentorRepository;
+
+    @Autowired
+    private MentoriaRepository mentoriaRepository;
 
     public Iterable<MentorEntity> getMentores() {
         Iterable<MentorEntity> mentores = mentorRepository.findAll();
@@ -36,9 +43,14 @@ public class MentorService {
     }
 
     public void excluiMentor(Long id) {
-        Optional<MentorEntity> mentorEntity = mentorRepository.findById(id);
-        if (mentorEntity.isPresent()) {
-            mentorRepository.delete(mentorEntity.get());
+        List<MentoriaEntity> mentoriaEntities = mentoriaRepository.findByMentor_Id(id);
+        if (mentoriaEntities.isEmpty()) {
+            Optional<MentorEntity> mentorEntity = mentorRepository.findById(id);
+            if (mentorEntity.isPresent()) {
+                mentorRepository.delete(mentorEntity.get());
+            }
+        } else {
+            throw new ImpossivelExcluir("Impossível excluir mentor, pois está em uso na mentoria.");
         }
     }
 
