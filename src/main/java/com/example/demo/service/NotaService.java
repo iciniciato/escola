@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.dto.NotaDTO;
 import com.example.demo.dto.VinculaNotaDTO;
-import com.example.demo.dto.mapper.NotaDtoMapper;
 import com.example.demo.entity.MateriaEntity;
 import com.example.demo.entity.MentoriaEntity;
 import com.example.demo.entity.NotaEntity;
+import com.example.demo.dto.mapper.NotaMapper;
 import com.example.demo.repository.MateriaRepository;
 import com.example.demo.repository.MentoriaRepository;
 import com.example.demo.repository.NotaRepository;
@@ -27,6 +27,9 @@ public class NotaService {
     @Autowired
     private MateriaRepository materiaRepository;
 
+    @Autowired
+    private NotaMapper notaMapper;
+
     public Iterable<NotaEntity> getNotas() {
         Iterable<NotaEntity> notas = notaRepository.findAll();
         return notas;
@@ -36,7 +39,7 @@ public class NotaService {
         Optional<NotaEntity> notaEntity = notaRepository.findById(id);
         NotaDTO notaDTO = new NotaDTO();
         if (notaEntity.isPresent()) {
-            notaDTO = NotaDtoMapper.converteNotaEntity(notaEntity.get());
+            notaDTO = notaMapper.toNotaEntity(notaEntity.get());
         }
         return notaDTO;
     }

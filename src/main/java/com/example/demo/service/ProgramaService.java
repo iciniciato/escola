@@ -1,13 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.ProgramaDTO;
-import com.example.demo.dto.mapper.ProgramaDtoMapper;
-import com.example.demo.dto.mapper.ProgramaEntityMapper;
 import com.example.demo.entity.ProgramaEntity;
+import com.example.demo.dto.mapper.ProgramaMapper;
 import com.example.demo.repository.ProgramaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -15,6 +15,9 @@ public class ProgramaService {
 
     @Autowired
     private ProgramaRepository programaRepository;
+
+    @Autowired
+    private ProgramaMapper programaMapper;
 
     public Iterable<ProgramaEntity> getProgramas() {
         Iterable<ProgramaEntity> programas = programaRepository.findAll();
@@ -25,13 +28,13 @@ public class ProgramaService {
         Optional<ProgramaEntity> programaEntity = programaRepository.findById(id);
         ProgramaDTO programaDTO = new ProgramaDTO();
         if (programaEntity.isPresent()) {
-            programaDTO = ProgramaDtoMapper.converteProgramaEntity(programaEntity.get());
+            programaDTO = programaMapper.toProgramaEntity(programaEntity.get());
         }
         return programaDTO;
     }
 
     public void criaPrograma(ProgramaDTO programaDTO) {
-        ProgramaEntity programaEntity = ProgramaEntityMapper.converteProgramaDto(programaDTO);
+        ProgramaEntity programaEntity = programaMapper.toProgramaDto(programaDTO);
         programaRepository.save(programaEntity);
     }
 
@@ -42,11 +45,26 @@ public class ProgramaService {
         }
     }
 
+    ProgramaEntity setaInformacoesPrograma(ProgramaDTO programaDTO, ProgramaEntity programaEntity) {
+        if (Objects.nonNull(programaDTO.getNome())) {
+            programaEntity.setNome(programaDTO.getNome());
+        }
+        if (Objects.nonNull(programaDTO.getAno())) {
+            programaEntity.setAno(programaDTO.getAno());
+        }
+        if (Objects.nonNull(programaDTO.getDataInicio())) {
+            programaEntity.setDataInicio(programaDTO.getDataInicio());
+        }
+        if (Objects.nonNull(programaDTO.getDataFim())) {
+            programaEntity.setDataFim(programaDTO.getDataFim());
+        }
+        return programaEntity;
+    }
+
     public Boolean alteraPrograma(ProgramaDTO programaDTO, Long id) {
         Optional<ProgramaEntity> programaEntity = programaRepository.findById(id);
         if (programaEntity.isPresent()) {
-            ProgramaEntity programaParaAlterar =
-                    ProgramaEntityMapper.setaInformacoesPrograma(programaDTO, programaEntity.get());
+            ProgramaEntity programaParaAlterar = setaInformacoesPrograma(programaDTO, programaEntity.get());
             programaRepository.save(programaParaAlterar);
             return true;
         }

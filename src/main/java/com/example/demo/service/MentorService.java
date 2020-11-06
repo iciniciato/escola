@@ -1,17 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.MentorDTO;
-import com.example.demo.dto.mapper.MentorDtoMapper;
-import com.example.demo.dto.mapper.MentorEntityMapper;
 import com.example.demo.entity.MentorEntity;
 import com.example.demo.entity.MentoriaEntity;
 import com.example.demo.exceptions.ImpossivelExcluir;
+import com.example.demo.dto.mapper.MentorMapper;
 import com.example.demo.repository.MentorRepository;
 import com.example.demo.repository.MentoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,6 +23,9 @@ public class MentorService {
     @Autowired
     private MentoriaRepository mentoriaRepository;
 
+    @Autowired
+    private MentorMapper mentorMapper;
+
     public Iterable<MentorEntity> getMentores() {
         Iterable<MentorEntity> mentores = mentorRepository.findAll();
         return mentores;
@@ -32,13 +35,13 @@ public class MentorService {
         Optional<MentorEntity> mentorEntity = mentorRepository.findById(id);
         MentorDTO mentorDTO = new MentorDTO();
         if (mentorEntity.isPresent()) {
-            mentorDTO = MentorDtoMapper.converteMentorEntity(mentorEntity.get());
+            mentorDTO = mentorMapper.toMentorEntity(mentorEntity.get());
         }
         return mentorDTO;
     }
 
     public void criaMentor(MentorDTO mentorDTO) {
-        MentorEntity mentorEntity = MentorEntityMapper.converteMentorDto(mentorDTO);
+        MentorEntity mentorEntity = mentorMapper.toMentorDto(mentorDTO);
         mentorRepository.save(mentorEntity);
     }
 
@@ -54,11 +57,20 @@ public class MentorService {
         }
     }
 
+    private MentorEntity setaInformacoesMentor(MentorDTO mentorDTO, MentorEntity mentorEntity) {
+        if (Objects.nonNull(mentorDTO.getNome())) {
+            mentorEntity.setNome(mentorDTO.getNome());
+        }
+        if (Objects.nonNull(mentorDTO.getPais())) {
+            mentorEntity.setPais(mentorDTO.getPais());
+        }
+        return mentorEntity;
+    }
+
     public Boolean alteraMentor(MentorDTO mentorDTO, Long id) {
         Optional<MentorEntity> mentorEntity = mentorRepository.findById(id);
         if (mentorEntity.isPresent()) {
-            MentorEntity mentorParaAlterar =
-                    MentorEntityMapper.setaInformacoesMentor(mentorDTO, mentorEntity.get());
+            MentorEntity mentorParaAlterar = setaInformacoesMentor(mentorDTO, mentorEntity.get());
             mentorRepository.save(mentorParaAlterar);
             return true;
         }

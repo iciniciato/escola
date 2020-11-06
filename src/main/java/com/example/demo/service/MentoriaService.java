@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.dto.MentoriaDTO;
 import com.example.demo.dto.VinculaMentoriaDTO;
-import com.example.demo.dto.mapper.MentoriaDtoMapper;
 import com.example.demo.entity.AlunoEntity;
 import com.example.demo.entity.MentorEntity;
 import com.example.demo.entity.MentoriaEntity;
+import com.example.demo.dto.mapper.MentoriaMapper;
 import com.example.demo.repository.AlunoRepository;
 import com.example.demo.repository.MentorRepository;
 import com.example.demo.repository.MentoriaRepository;
@@ -27,6 +27,9 @@ public class MentoriaService {
     @Autowired
     private MentorRepository mentorRepository;
 
+    @Autowired
+    private MentoriaMapper mentoriaMapper;
+
     public Iterable<MentoriaEntity> getMentorias() {
         Iterable<MentoriaEntity> mentorias = mentoriaRepository.findAll();
         return mentorias;
@@ -36,7 +39,7 @@ public class MentoriaService {
         Optional<MentoriaEntity> mentoriaEntity = mentoriaRepository.findById(id);
         MentoriaDTO mentoriaDTO = new MentoriaDTO();
         if (mentoriaEntity.isPresent()) {
-            mentoriaDTO = MentoriaDtoMapper.converteMentoriaEntity(mentoriaEntity.get());
+            mentoriaDTO = mentoriaMapper.toMentoriaEntity(mentoriaEntity.get());
         }
         return mentoriaDTO;
     }

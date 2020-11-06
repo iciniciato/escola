@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.MateriaDTO;
-import com.example.demo.dto.mapper.MateriaDtoMapper;
-import com.example.demo.dto.mapper.MateriaEntityMapper;
 import com.example.demo.entity.MateriaEntity;
+import com.example.demo.dto.mapper.MateriaMapper;
 import com.example.demo.repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,9 @@ public class MateriaService {
     @Autowired
     private MateriaRepository materiaRepository;
 
+    @Autowired
+    private MateriaMapper materiaMapper;
+
     public Iterable<MateriaEntity> getMaterias() {
         Iterable<MateriaEntity> materias = materiaRepository.findAll();
         return materias;
@@ -25,13 +27,13 @@ public class MateriaService {
         Optional<MateriaEntity> materiaEntity = materiaRepository.findById(id);
         MateriaDTO materiaDTO = new MateriaDTO();
         if (materiaEntity.isPresent()) {
-            materiaDTO = MateriaDtoMapper.converteMateriaEntity(materiaEntity.get());
+            materiaDTO = materiaMapper.toMateriaEntity(materiaEntity.get());
         }
         return materiaDTO;
     }
 
     public void criaMateria(MateriaDTO materiaDTO) {
-        MateriaEntity materiaEntity = MateriaEntityMapper.converteMateriaDto(materiaDTO);
+        MateriaEntity materiaEntity = materiaMapper.toMateriaDto(materiaDTO);
         materiaRepository.save(materiaEntity);
     }
 
@@ -42,11 +44,15 @@ public class MateriaService {
         }
     }
 
+    private MateriaEntity setaInformacoesMateria(MateriaDTO materiaDTO, MateriaEntity materiaEntity) {
+        materiaEntity.setNome(materiaDTO.getNome());
+        return materiaEntity;
+    }
+
     public Boolean alteraMateria(MateriaDTO materiaDTO, Long id) {
         Optional<MateriaEntity> materiaEntity = materiaRepository.findById(id);
         if (materiaEntity.isPresent()) {
-            MateriaEntity materiaParaAlterar =
-                    MateriaEntityMapper.setaInformacoesMateria(materiaDTO, materiaEntity.get());
+            MateriaEntity materiaParaAlterar = setaInformacoesMateria(materiaDTO, materiaEntity.get());
             materiaRepository.save(materiaParaAlterar);
             return true;
         }
