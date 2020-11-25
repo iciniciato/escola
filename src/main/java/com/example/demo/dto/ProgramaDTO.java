@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ProgramaDTO {
 
+    private Long id;
     private String nome;
 
     @DateTimeFormat(pattern = "YYYY-MM-dd")

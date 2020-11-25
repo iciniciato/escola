@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class AlunoDTO {
 
+    private Long id;
     private String nome;
     private String classe;
 

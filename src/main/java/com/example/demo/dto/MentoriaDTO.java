@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class MentoriaDTO {
 
+    private Long id;
     private AlunoDTO aluno;
     private MentorDTO mentor;
 }

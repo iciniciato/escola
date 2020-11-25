@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class MentorDTO {
 
+    private Long id;
     private String nome;
     private String pais;
 }

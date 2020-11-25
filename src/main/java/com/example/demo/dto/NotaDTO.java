@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class NotaDTO {
 
+    private Long id;
     private Float nota;
 
     @DateTimeFormat(pattern = "YYYY-MM-dd")
