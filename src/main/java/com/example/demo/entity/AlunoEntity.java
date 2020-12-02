@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Entity(name = "ALUNO")
 public class AlunoEntity {
 
-    private String nome;
-    private String classe;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String nome;
+    private String classe;
 }
