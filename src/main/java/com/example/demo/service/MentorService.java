@@ -35,13 +35,13 @@ public class MentorService {
         Optional<MentorEntity> mentorEntity = mentorRepository.findById(id);
         MentorDTO mentorDTO = new MentorDTO();
         if (mentorEntity.isPresent()) {
-            mentorDTO = mentorMapper.toMentorEntity(mentorEntity.get());
+            mentorDTO = mentorMapper.toMentorDTO(mentorEntity.get());
         }
         return mentorDTO;
     }
 
     public void criaMentor(MentorDTO mentorDTO) {
-        MentorEntity mentorEntity = mentorMapper.toMentorDto(mentorDTO);
+        MentorEntity mentorEntity = mentorMapper.toMentorEntity(mentorDTO);
         mentorRepository.save(mentorEntity);
     }
 

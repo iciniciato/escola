@@ -27,13 +27,13 @@ public class MateriaService {
         Optional<MateriaEntity> materiaEntity = materiaRepository.findById(id);
         MateriaDTO materiaDTO = new MateriaDTO();
         if (materiaEntity.isPresent()) {
-            materiaDTO = materiaMapper.toMateriaEntity(materiaEntity.get());
+            materiaDTO = materiaMapper.toMateriaDTO(materiaEntity.get());
         }
         return materiaDTO;
     }
 
     public void criaMateria(MateriaDTO materiaDTO) {
-        MateriaEntity materiaEntity = materiaMapper.toMateriaDto(materiaDTO);
+        MateriaEntity materiaEntity = materiaMapper.toMateriaEntity(materiaDTO);
         materiaRepository.save(materiaEntity);
     }
 

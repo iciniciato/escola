@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface NotaMapper {
-    NotaDTO toNotaEntity(NotaEntity notaEntity);
+    NotaDTO toNotaDTO(NotaEntity notaEntity);
 }

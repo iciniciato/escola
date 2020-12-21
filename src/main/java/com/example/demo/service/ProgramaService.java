@@ -28,13 +28,13 @@ public class ProgramaService {
         Optional<ProgramaEntity> programaEntity = programaRepository.findById(id);
         ProgramaDTO programaDTO = new ProgramaDTO();
         if (programaEntity.isPresent()) {
-            programaDTO = programaMapper.toProgramaEntity(programaEntity.get());
+            programaDTO = programaMapper.toProgramaDTO(programaEntity.get());
         }
         return programaDTO;
     }
 
     public void criaPrograma(ProgramaDTO programaDTO) {
-        ProgramaEntity programaEntity = programaMapper.toProgramaDto(programaDTO);
+        ProgramaEntity programaEntity = programaMapper.toProgramaEntity(programaDTO);
         programaRepository.save(programaEntity);
     }
 

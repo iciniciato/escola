@@ -39,7 +39,7 @@ public class NotaService {
         Optional<NotaEntity> notaEntity = notaRepository.findById(id);
         NotaDTO notaDTO = new NotaDTO();
         if (notaEntity.isPresent()) {
-            notaDTO = notaMapper.toNotaEntity(notaEntity.get());
+            notaDTO = notaMapper.toNotaDTO(notaEntity.get());
         }
         return notaDTO;
     }

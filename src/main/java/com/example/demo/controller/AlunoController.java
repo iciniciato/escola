@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/alunos")
 @Api(value = "Alunos", description = "CRUD Aluno")
@@ -34,7 +36,7 @@ public class AlunoController {
     @PostMapping
     public ResponseEntity postAluno(@RequestBody AlunoDTO alunodto) {
         alunoService.criaAluno(alunodto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(URI.create("/aluno/" + alunodto.getId())).build();
     }
 
     @ApiOperation(value = "Deletar aluno por id")

@@ -39,7 +39,7 @@ public class MentoriaService {
         Optional<MentoriaEntity> mentoriaEntity = mentoriaRepository.findById(id);
         MentoriaDTO mentoriaDTO = new MentoriaDTO();
         if (mentoriaEntity.isPresent()) {
-            mentoriaDTO = mentoriaMapper.toMentoriaEntity(mentoriaEntity.get());
+            mentoriaDTO = mentoriaMapper.toMentoriaDTO(mentoriaEntity.get());
         }
         return mentoriaDTO;
     }

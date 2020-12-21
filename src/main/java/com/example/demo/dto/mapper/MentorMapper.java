@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MentorMapper {
-    MentorEntity toMentorDto(MentorDTO mentorDTO);
+    MentorEntity toMentorEntity(MentorDTO mentorDTO);
 
-    MentorDTO toMentorEntity(MentorEntity mentorEntity);
+    MentorDTO toMentorDTO(MentorEntity mentorEntity);
 }

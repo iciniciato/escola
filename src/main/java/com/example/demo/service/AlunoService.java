@@ -9,6 +9,7 @@ import com.example.demo.repository.AlunoRepository;
 import com.example.demo.repository.MentoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,30 +32,31 @@ public class AlunoService {
         return alunos;
     }
 
+    @Transactional(readOnly = true)
     public AlunoDTO getAlunoByIndex(Long id) {
         Optional<AlunoEntity> alunoEntity = alunoRepository.findById(id);
         AlunoDTO alunoDTO = new AlunoDTO();
         if (alunoEntity.isPresent()) {
-            alunoDTO = alunoMapper.toAlunoEntity(alunoEntity.get());
+            alunoDTO = alunoMapper.toAlunoDTO(alunoEntity.get());
         }
         return alunoDTO;
     }
 
+    @Transactional(readOnly = true)
     public void criaAluno(AlunoDTO alunoDTO) {
-        AlunoEntity alunoEntity = alunoMapper.toAlunoDTO(alunoDTO);
+        AlunoEntity alunoEntity = alunoMapper.toAlunoEntity(alunoDTO);
         alunoRepository.save(alunoEntity);
     }
 
+    @Transactional(readOnly = true)
     public void excluiAluno(Long id) {
         List<MentoriaEntity> mentoriaEntities = mentoriaRepository.findByAluno_Id(id);
-        if (mentoriaEntities.isEmpty()) {
-            Optional<AlunoEntity> alunoEntity = alunoRepository.findById(id);
-            if (alunoEntity.isPresent()) {
-                alunoRepository.delete(alunoEntity.get());
-            }
-        } else {
+        if(!mentoriaEntities.isEmpty()){
             throw new ImpossivelExcluir("Impossível excluir aluno, pois está em uso na mentoria.");
+
         }
+            Optional<AlunoEntity> alunoEntity = alunoRepository.findById(id);
+            alunoEntity.ifPresent(entity -> alunoRepository.delete(entity));
     }
 
     private AlunoEntity setaInformacoesAluno(AlunoDTO alunoDTO, AlunoEntity alunoEntity) {
@@ -67,6 +69,7 @@ public class AlunoService {
         return alunoEntity;
     }
 
+    @Transactional(readOnly = true)
     public Boolean alteraAluno(AlunoDTO alunoDTO, Long id) {
         Optional<AlunoEntity> alunoEntity = alunoRepository.findById(id);
         if (alunoEntity.isPresent()) {
